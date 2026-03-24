@@ -21,3 +21,59 @@ Chatbot สำหรับรับฟังและช่วยสะท้อ
 # 📌 Example Response
 "ฟังดูเหมือนคุณกำลังเหนื่อยมากเลยนะครับ
 เรื่องนี้กระทบความรู้สึกคุณยังไงบ้างครับ"
+
+# โครงสร้างข้อมูลใน Google Sheets
+
+| A | B | C | D | E | F | G |
+|---|---|---|---|---|---|---|
+| id | datetime | userid | name | mood | score | comment |
+
+## 1. Deploy เป็น Web App
+- สร้าง Google Sheets ใหม่
+- ตั้งชื่อคอลัมน์ตามตารางข้างต้น (row แรก)
+## 2. ติดตั้ง Script
+
+1. เปิด Google Sheets → Extensions → **Apps Script**
+2. ลบ **code** เดิมออกทั้งหมด
+3. Copy code จากไฟล์ `Code.gs` วางลงไป
+4. แทนที่ `YOUR_GOOGLE_SHEETS_URL_HERE` ด้วย URL ของ Google Sheets คุณ
+
+```javascript
+var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/YOUR_ID/edit");
+```
+
+5. กด **Save** (Ctrl+S)
+
+---
+
+## 3. Deploy เป็น Web App
+
+1. คลิก Deploy → **New deployment**
+2. เลือก Type: **Web app**
+3. ตั้งค่าดังนี้:
+
+   - Execute as: **Me**
+   - Who has access: **Anyone**
+4. คลิก **Deploy** และ **copy Web app URL** ที่ได้
+
+## 4. Deploy เป็น Web App
+นำ Web app URL ไปใส่ใน Botnoi พร้อม parameters ดังนี้:
+
+| Parameter | คำอธิบาย |
+|---|---|
+| `name` | ชื่อผู้ใช้ |
+| `mood` | อารมณ์ |
+| `score` | คะแนน |
+| `comment` | ข้อเสนอแนะ |
+
+**ตัวอย่าง URL:**
+
+```
+https://script.google.com/macros/s/AKfycby6mXHX_CwwGIZKmsXviZAGw6TJmXhO7fSgwlbM-rbVfJjWiLnea87VvPxuuQWwDz4/exec?name=John&mood=happy&score=5&comment=บริการดีมาก
+```
+
+## Response
+Script จะส่งค่ากลับเป็น JSON:
+```{
+  "result":"added"
+}
